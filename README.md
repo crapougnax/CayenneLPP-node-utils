@@ -1,5 +1,6 @@
-# CayenneLPP-Node
-Cayenne Low Power Payload Encoder and Decoder in Node.JS
+# cpgx-cayennelpp
+
+Node module to encode and decode Cayenne Low Power Payload
 
 ## Usage
 

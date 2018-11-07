@@ -17,8 +17,6 @@ describe('decoder', () => {
     const channel1 = getDecoder().getChannel(1)
     const channel3 = getDecoder().getChannel(3)
 
-    console.log(cyn)
-
     it('data should contain 4 channels', function() {
         assert.equal(4, Object.keys(cyn.getChannels()).length)
     })
