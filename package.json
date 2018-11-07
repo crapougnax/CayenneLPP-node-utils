@@ -1,18 +1,29 @@
 {
-  "name": "cayennelpp-nodejs",
+  "name": "cpgx-cayennelpp",
   "version": "1.0.0",
-  "description": "",
-  "main": "./lib/index.js",
+  "description": "A Cayenne LPP payload format toolbox with an encoder and a decoder",
+  "main": "./lib/boot.js",
   "dependencies": {
     "lodash": "^4.17.4"
   },
   "devDependencies": {
     "assert": "^1.4.1",
-    "mocha": "^3.4.2"
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
+    "chai": "^4.2.0",
+    "mocha": "^3.5.3"
   },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  },
+  "mocha.requires": [
+    "babel-register"
+  ],
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --require babel-register"
   },
-  "author": "myDevices Inc",
+  "author": "Olivier Lépine",
   "license": "ISC"
 }
