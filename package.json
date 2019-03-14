@@ -1,12 +1,13 @@
 {
-  "name": "cpgx-cayennelpp",
-  "version": "1.0.1",
-  "description": "A toolbox to encode and decode Cayenne LPP payload format",
-  "main": "./lib/boot.js",
+  "name": "@crapougnax/cayennelpp",
+  "version": "1.1.0",
+  "description": "A toolbox to encode and decode Cayenne LPP payload format, based on myDevicesIOT/CayenneLPP-Node",
+  "main": "index",
   "dependencies": {
-    "lodash": "^4.17.4",
+    "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "babel-register": "^6.26.0"
+    "babel-register": "^6.26.0",
+    "lodash": "^4.17.4"
   },
   "devDependencies": {
     "assert": "^1.4.1",
@@ -22,7 +23,8 @@
     "babel-register"
   ],
   "scripts": {
-    "test": "mocha --require babel-register"
+    "test": "mocha --require babel-register",
+    "build": "babel lib --presets babel-preset-env --out-dir distribution"
   },
   "author": "Olivier Lépine <olivier@lepine.fr",
   "license": "ISC"

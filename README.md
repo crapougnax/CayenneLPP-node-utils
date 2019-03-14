@@ -6,16 +6,11 @@ Node module to encode and decode Cayenne Low Power Payload
 
 ```javascript
 
-import { LPPEncoder } from  'cpgx-cayennelpp'
+import { LPPEncoder,LPPDecoder } from  '@crapougnax/cayennelpp-utils'
 
 const encoder = new LPPEncoder()
 encoder.addTemperature(99, 33.0)
 const pl = encoder.getPayload().toString('base64')
-```
-
-```javascript
-
-import { LPPDecoder } from  'cpgx-cayennelpp'
 
 const decoder = new LPPEncoder(buffer)
 decoder.decode()
