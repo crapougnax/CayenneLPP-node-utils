@@ -1,6 +1,6 @@
-# cayenne-lpp
+# Cayenne LPP
 
-Node module to encode and decode Cayenne Low Power Payload
+A Node module to encode and decode Cayenne Low Power Payload for LoraWan
 
 ## Usage
 
