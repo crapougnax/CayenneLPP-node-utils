@@ -1,4 +1,4 @@
-# cpgx-cayennelpp
+# cayenne-lpp
 
 Node module to encode and decode Cayenne Low Power Payload
 
@@ -6,7 +6,7 @@ Node module to encode and decode Cayenne Low Power Payload
 
 ```javascript
 
-import { LPPEncoder,LPPDecoder } from  '@crapougnax/cayennelpp-utils'
+import { LPPEncoder,LPPDecoder } from  '@crapougnax/cayennelpp'
 
 const encoder = new LPPEncoder()
 encoder.addTemperature(99, 33.0)
