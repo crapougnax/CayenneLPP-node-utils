@@ -1,6 +1,6 @@
 require('babel-register')
 
-import decoder from '../lib/decoder'
+import { LPPDecoder as decoder } from '../lib/decoder'
 import { assert } from 'chai'
 
 function getDecoder() {
