@@ -1,13 +1,13 @@
 {
   "name": "@crapougnax/cayennelpp",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "description": "A toolbox to encode and decode Cayenne LPP payload format, based on myDevicesIOT/CayenneLPP-Node",
   "main": "index",
   "dependencies": {
     "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
+    "babel-preset-env": "^1.6.1",
     "babel-register": "^6.26.0",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.11"
   },
   "devDependencies": {
     "assert": "^1.4.1",
@@ -27,5 +27,5 @@
     "build": "babel lib --presets babel-preset-env --out-dir distribution"
   },
   "author": "Olivier Lépine <olivier@lepine.fr",
-  "license": "ISC"
+  "license": "BSD"
 }
