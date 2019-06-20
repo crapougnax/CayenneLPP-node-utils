@@ -1,12 +1,12 @@
-# cpgx-cayennelpp
+# Cayenne LPP
 
-Node module to encode and decode Cayenne Low Power Payload
+A Node module to encode and decode Cayenne Low Power Payload for LoraWan
 
 ## Usage
 
 ```javascript
 
-import { LPPEncoder,LPPDecoder } from  '@crapougnax/cayennelpp-utils'
+import { LPPEncoder,LPPDecoder } from  '@crapougnax/cayennelpp'
 
 const encoder = new LPPEncoder()
 encoder.addTemperature(99, 33.0)
