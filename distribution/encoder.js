@@ -32,7 +32,7 @@ var LPPEncoder = exports.LPPEncoder = function () {
         this.LPP_GPS_SIZE = 11; // 3 byte lon/lat 0.0001 °, 3 bytes alt 0.01 meter
 
         this.maxsize = 13;
-        this.buffer = new Buffer(this.maxsize);
+        this.buffer = Buffer.alloc(this.maxsize);
         this.cursor = 0;
     }
 

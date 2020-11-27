@@ -16,20 +16,31 @@ var LPPDecoder = exports.LPPDecoder = function () {
         _classCallCheck(this, LPPDecoder);
 
         this.maxsize = 51;
-        this.buffer = buffer;
-        this.cursor = 0;
-        this.channels = {};
-        this.current = null; // current channel
+
+        if (buffer) {
+            this.decode(buffer);
+        }
     }
 
-    /**
-     * Try to decode a Cayenne LPP payload in buffer
-     */
-
-
     _createClass(LPPDecoder, [{
+        key: 'prepare',
+        value: function prepare() {
+            this.cursor = 0;
+            this.channels = {};
+            this.current = null; // current channel
+        }
+
+        /**
+         * Try to decode a Cayenne LPP payload in buffer
+         */
+
+    }, {
         key: 'decode',
-        value: function decode() {
+        value: function decode(buffer) {
+            if (buffer) {
+                this.buffer = buffer;
+            }
+            this.prepare();
             while (this.cursor < this.buffer.length) {
                 if (this.current !== null) {
                     // channel part is defined
@@ -52,6 +63,10 @@ var LPPDecoder = exports.LPPDecoder = function () {
 
                         case _common.HUMIDITY:
                             this.channels[this.current]['humidity'] = this.getRelativeHumidity();
+                            break;
+
+                        case _common.BAROMETER:
+                            this.channels[this.current]['barometric_pressure'] = this.getBarometricPressure();
                             break;
 
                         default:
@@ -93,6 +108,11 @@ var LPPDecoder = exports.LPPDecoder = function () {
         key: 'getChannel',
         value: function getChannel(key) {
             return this.channels[key] || false;
+        }
+    }, {
+        key: 'getChannelData',
+        value: function getChannelData(key, data) {
+            return this.channels[key][data] != undefined ? this.channels[key][data] : null;
         }
 
         /**
@@ -137,6 +157,21 @@ var LPPDecoder = exports.LPPDecoder = function () {
         }
 
         /**
+         * Return a pressure and
+         * increment the buffer cursor
+         * @return float
+         */
+
+    }, {
+        key: 'getBarometricPressure',
+        value: function getBarometricPressure() {
+            var value = this.buffer.readInt16BE(++this.cursor);
+            this.cursor++;
+
+            return value / 10;
+        }
+
+        /**
          * Return a luminosity in Lux and
          * increment the buffer cursor
          * @return integer
@@ -166,5 +201,3 @@ var LPPDecoder = exports.LPPDecoder = function () {
 
     return LPPDecoder;
 }();
-
-exports.default = LPPDecoder;

@@ -1,6 +1,8 @@
 'use strict';
 
-module.exports = {
-    LPPEncoder: require('./encoder'),
-    LPPDecoder: require('./decoder')
-};
+require('./decoder');
+
+// module.exports = {
+//     LPPEncoder: require('./encoder'),
+//     LPPDecoder: require('./decoder')
+// }
