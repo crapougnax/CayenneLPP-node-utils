@@ -5,9 +5,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.LPPDecoder = undefined;
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _common = require('./common');
+
+var _common2 = _interopRequireDefault(_common);
+
+var _utils = require('./utils');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -37,6 +45,8 @@ var LPPDecoder = exports.LPPDecoder = function () {
     }, {
         key: 'decode',
         value: function decode(buffer) {
+            var _this = this;
+
             if (buffer) {
                 this.buffer = buffer;
             }
@@ -44,34 +54,22 @@ var LPPDecoder = exports.LPPDecoder = function () {
             while (this.cursor < this.buffer.length) {
                 if (this.current !== null) {
                     // channel part is defined
-                    switch (this.buffer[this.cursor]) {
-                        case _common.ANALOG_INPUT:
-                            this.channels[this.current]['analog'] = this.getAnalogInput();
-                            break;
+                    var m = void 0;
+                    if ((m = Object.entries(_common2.default).find(function (_ref) {
+                        var _ref2 = _slicedToArray(_ref, 2),
+                            n = _ref2[0],
+                            a = _ref2[1];
 
-                        case _common.DIGITAL_INPUT:
-                            this.channels[this.current]['digital'] = this.getDigitalInput();
-                            break;
-
-                        case _common.TEMPERATURE:
-                            this.channels[this.current]['temperature'] = this.getTemperature();
-                            break;
-
-                        case _common.LUMINOSITY:
-                            this.channels[this.current]['luminosity'] = this.getLuminosity();
-                            break;
-
-                        case _common.HUMIDITY:
-                            this.channels[this.current]['humidity'] = this.getRelativeHumidity();
-                            break;
-
-                        case _common.BAROMETER:
-                            this.channels[this.current]['barometric_pressure'] = this.getBarometricPressure();
-                            break;
-
-                        default:
-                            console.log("Unsupported data type: " + this.buffer[this.cursor]);
-                            break;
+                        return a.ID == _this.buffer[_this.cursor];
+                    })) !== null) {
+                        var opts = [];
+                        for (var i = 0; i < m[1].OPTS.length; i++) {
+                            opts.push((0, _utils.fromBytes)(this.buffer.slice(this.cursor + 1, this.cursor + 1 + m[1].OPTS[i][0])) / m[1].OPTS[i][1]);
+                            this.cursor += m[1].OPTS[i][0];
+                        }
+                        this.channels[this.current][m[0].toLowerCase()] = opts.length == 1 ? opts[0] : opts;
+                    } else {
+                        console.log("Unsupported data type: " + this.buffer[this.cursor]);
                     }
                     this.cursor++;
                     this.current = null;
@@ -113,89 +111,6 @@ var LPPDecoder = exports.LPPDecoder = function () {
         key: 'getChannelData',
         value: function getChannelData(key, data) {
             return this.channels[key][data] != undefined ? this.channels[key][data] : null;
-        }
-
-        /**
-         * Return a float value and
-         * increment the buffer cursor
-         * @return float
-         */
-
-    }, {
-        key: 'getAnalogInput',
-        value: function getAnalogInput() {
-            var value = this.buffer.readInt16BE(++this.cursor);
-            this.cursor++;
-
-            return value / 100;
-        }
-
-        /**
-         * Return an integer value
-         * @return integer
-         */
-
-    }, {
-        key: 'getDigitalInput',
-        value: function getDigitalInput(channel, value) {
-            return this.buffer[++this.cursor];
-        }
-
-        /**
-         * Return a temperature and
-         * increment the buffer cursor
-         * @return float
-         */
-
-    }, {
-        key: 'getTemperature',
-        value: function getTemperature() {
-            var value = this.buffer.readInt16BE(++this.cursor);
-            this.cursor++;
-
-            return value / 10;
-        }
-
-        /**
-         * Return a pressure and
-         * increment the buffer cursor
-         * @return float
-         */
-
-    }, {
-        key: 'getBarometricPressure',
-        value: function getBarometricPressure() {
-            var value = this.buffer.readInt16BE(++this.cursor);
-            this.cursor++;
-
-            return value / 10;
-        }
-
-        /**
-         * Return a luminosity in Lux and
-         * increment the buffer cursor
-         * @return integer
-         */
-
-    }, {
-        key: 'getLuminosity',
-        value: function getLuminosity() {
-            var value = this.buffer.readInt16BE(++this.cursor);
-            this.cursor++;
-
-            return value;
-        }
-
-        /**
-         * Return a relative humidity value in percents and
-         * increment the buffer cursor
-         * @returns float
-         */
-
-    }, {
-        key: 'getRelativeHumidity',
-        value: function getRelativeHumidity() {
-            return this.buffer[++this.cursor] / 2;
         }
     }]);
 
